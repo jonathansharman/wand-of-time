@@ -7,21 +7,22 @@
 namespace wot {
 	struct state_mgr {
 		//! The current state.
-		state const& cur() const {
-			return *_cur;
+		state& cur() {
+			return _states[_cur_index];
 		}
 
-		void add(state new_state) {
+		void advance(state new_state) {
 			_states.push_back(std::move(new_state));
+			forward();
 		}
 
 		void forward() {
-			_cur = _states.end();
+			_cur_index = _states.size() - 1;
 		}
 
 	private:
 		std::vector<state> _states;
 
-		std::vector<state>::iterator _cur;
+		std::size_t _cur_index = 0;
 	};
 }

@@ -1,5 +1,6 @@
 #include "chara.hpp"
-#include "lex.hpp"
+#include "item.hpp"
+#include "lexer.hpp"
 #include "parser.hpp"
 #include "room.hpp"
 #include "state.hpp"
@@ -15,26 +16,38 @@ int main() {
 
 	state_mgr state_mgr;
 	{
+		room main_room{
+			id<room>::make(), "your jail cell", "It's a cold, cramped stone cell secured with sturdy iron bars.", {}};
+
 		state first_state;
+		{
+			chara main_chara{id<chara>::make(), "you", "You're wearing prisoner's rags.", 0};
+			first_state.main_chara_id = main_chara.chara_id;
+			main_room.charas.push_back(main_chara);
+			main_room.charas.push_back(main_chara);
 
-		room main_room{id<room>::make(), "a small jail cell", {}};
-		first_state.rooms.insert({main_room.id, main_room});
+			item wand_of_time{id<item>::make(),
+				"a small wand",
+				"It's composed of two intertwined pieces of wood, capped with polished brass at both ends."};
+			main_room.items.push_back(wand_of_time);
+			main_room.items.push_back(wand_of_time);
+			main_room.exits.insert({dir::north, main_room.room_id});
 
-		chara main_chara{id<chara>::make(), 0, main_room.id};
-		first_state.charas.insert({main_chara.id, main_chara});
-		first_state.main_chara = main_chara.id;
+			first_state.rooms.push_back(main_room);
 
-		state_mgr.states.push_back(first_state);
-	}
+			state_mgr.advance(first_state);
+		}
 
-	fmt::print("~ The Wand of Time ~\n");
-	parser{{token{"look"}}, state_mgr}.parse();
+		fmt::print("~ The Wand of Time ~\n\n");
+		parser{{lex("look")}, state_mgr}.parse();
 
-	for (;;) {
-		fmt::print("\n> ");
-		std::string line;
-		std::getline(std::cin, line);
-		parser{lex(line), state_mgr}.parse();
+		for (;;) {
+			fmt::print("> ");
+			std::string line;
+			std::getline(std::cin, line);
+			fmt::print("\n");
+			parser{lex(line), state_mgr}.parse();
+		}
 	}
 
 	return 0;

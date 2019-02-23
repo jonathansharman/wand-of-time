@@ -22,13 +22,15 @@
     <ClCompile Include="extern\format.cc" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\parser.cpp" />
+    <ClCompile Include="src\room.cpp" />
     <ClCompile Include="src\room.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chara.hpp" />
     <ClInclude Include="src\id.hpp" />
+    <ClInclude Include="src\item.hpp" />
     <ClInclude Include="src\parser.hpp" />
-    <ClInclude Include="src\lex.hpp" />
+    <ClInclude Include="src\lexer.hpp" />
     <ClInclude Include="src\state.hpp" />
     <ClInclude Include="src\state_mgr.hpp" />
     <ClInclude Include="src\token.hpp" />
@@ -85,10 +87,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:/vc-libs/fmt/include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>C:/vc-libs/fmt/include/;C:/vc-libs/range-v3/include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:/vc-libs/fmt/include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>C:/vc-libs/fmt/include/;C:/vc-libs/range-v3/include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -96,7 +98,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -125,7 +127,7 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

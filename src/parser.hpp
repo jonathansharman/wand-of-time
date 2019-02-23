@@ -21,10 +21,12 @@ namespace wot {
 
 		token read();
 		token peek();
+		void rewind();
 
 		void unknown_command();
 		void look();
 		void go();
+		void wait();
 		void take();
 		void pick();
 		void use();
