@@ -4,12 +4,14 @@
 #include "state_mgr.hpp"
 #include "token.hpp"
 
+#include <functional>
+#include <optional>
 #include <string>
+#include <variant>
 
 namespace wot {
 	struct parser {
-		parser(std::vector<token> const& tokens, state_mgr& state_mgr)
-			: tokens{tokens}, state_mgr{state_mgr}, it{tokens.begin()} {}
+		parser(std::vector<token> const& tokens, state_mgr& state_mgr) : tokens{tokens}, state_mgr{state_mgr} {}
 
 		void parse();
 
@@ -17,20 +19,10 @@ namespace wot {
 		std::vector<token> const& tokens;
 		state_mgr& state_mgr;
 
-		std::vector<token>::const_iterator it;
+		void go(dir direction);
 
-		token read();
-		token peek();
-		void rewind();
+		void look_around();
 
-		void unknown_command();
-		void look();
-		void go();
-		void wait();
-		void take();
-		void pick();
-		void use();
-		void give();
-		void put();
+		[[nodiscard]] bool match(std::vector<std::variant<lexeme, std::function<bool(lexeme)>>> const& preds);
 	};
 }

@@ -7,6 +7,7 @@
 #include "state_mgr.hpp"
 
 #include <fmt/format.h>
+#include <range/v3/all.hpp>
 
 #include <iostream>
 #include <vector>
@@ -32,6 +33,7 @@ int main() {
 			main_room.items.push_back(wand_of_time);
 			main_room.items.push_back(wand_of_time);
 			main_room.exits.insert({dir::north, main_room.room_id});
+			main_room.exits.insert({dir::south, main_room.room_id});
 
 			first_state.rooms.push_back(main_room);
 
@@ -42,9 +44,10 @@ int main() {
 		parser{{lex("look")}, state_mgr}.parse();
 
 		for (;;) {
-			fmt::print("> ");
+			fmt::print("\n\n> ");
 			std::string line;
 			std::getline(std::cin, line);
+			line = line | ranges::view::transform([](char const& c) { return std::tolower(c); });
 			fmt::print("\n");
 			parser{lex(line), state_mgr}.parse();
 		}

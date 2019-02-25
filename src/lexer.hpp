@@ -24,9 +24,6 @@ namespace wot {
 			word_begin = std::find_if_not(word_end, line.end(), space_pred);
 		}
 
-		// Add end-of-line token at the end.
-		tokens.push_back(token{});
-
 		return tokens;
 	}
 }

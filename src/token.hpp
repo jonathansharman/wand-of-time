@@ -5,7 +5,6 @@
 
 namespace wot {
 	enum class lexeme { //
-		eol,
 		unknown,
 		// Directions
 		north,
@@ -36,14 +35,15 @@ namespace wot {
 		out,
 		around,
 		// Nouns
-		self
+		you,
+		self,
+		wand
 	};
 
 	struct token {
-		lexeme lex = lexeme::eol;
+		lexeme lex;
 		std::string_view text = "";
 
-		token() = default;
 		token(std::string_view text) : lex{classify(text)}, text{text} {}
 
 		static lexeme classify(std::string_view text) {
@@ -77,7 +77,9 @@ namespace wot {
 				{std::regex{"out"}, lexeme::out},
 				{std::regex{"around"}, lexeme::around},
 				// Nouns
-				{std::regex{"me|myself|self"}, lexeme::self}};
+				{std::regex{"you|yourself"}, lexeme::you},
+				{std::regex{"me|myself|self"}, lexeme::self},
+				{std::regex{"wand"}, lexeme::wand}};
 
 			for (auto const& [regex, lexeme] : map) {
 				if (std::regex_match(text.begin(), text.end(), regex)) { return lexeme; }
